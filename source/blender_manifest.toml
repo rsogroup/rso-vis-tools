@@ -1,0 +1,12 @@
+schema_version = "1.0.0"
+id = "rso_vis_tools"
+name = "RSO Vis Tools"
+version = "0.0.1"
+tagline = "RSO Vis Tools"
+maintainer = "RSO GmbH"
+type = "add-on"
+website = "https://rso.group/"
+blender_version_min = "4.5.3"
+license = [
+  "SPDX:GPL-3.0-or-later",
+]
