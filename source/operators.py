@@ -146,6 +146,44 @@ class CopyMeshDataOperator(bpy.types.Operator):
         return {'FINISHED'}
 
 
+class CleanMeshOperator(bpy.types.Operator):
+    """Das Mesh wird bereinigt und vereinfacht."""
+    bl_idname = "object.rso_clean_mesh"
+    bl_label = "Mesh bereinigen"
+
+    def execute(self, context):
+        prev_mode = context.mode
+        merge_distance = 0.0001
+
+        bpy.ops.object.mode_set(mode='OBJECT')
+
+        for obj in bpy.context.selected_objects:
+            if obj.type == 'MESH':
+                bpy.context.view_layer.objects.active = obj
+                obj.select_set(True)
+
+                bpy.ops.object.mode_set(mode='EDIT')
+
+                # Select all vertices
+                bpy.ops.mesh.select_all(action='SELECT')
+
+                # Merge by distance with specified threshold
+                bpy.ops.mesh.remove_doubles(threshold=merge_distance)
+
+                bpy.ops.object.mode_set(mode='OBJECT')
+
+                # Create and apply a modifier to merge all coplanar faces
+                modifier = obj.modifiers.new(
+                    name='RSO_DECIMATE', type='DECIMATE')
+                modifier.decimate_type = 'DISSOLVE'
+                modifier.angle_limit = 0.00174533
+                bpy.ops.object.modifier_apply(modifier=modifier.name)
+
+        bpy.ops.object.mode_set(mode=prev_mode)
+
+        return {'FINISHED'}
+
+
 def register():
     bpy.utils.register_class(SwapSelectedOperator)
     bpy.utils.register_class(SwapOperator)
@@ -153,6 +191,7 @@ def register():
     bpy.utils.register_class(SelectDstMaterialOperator)
     bpy.utils.register_class(RotateMapOperator)
     bpy.utils.register_class(CopyMeshDataOperator)
+    bpy.utils.register_class(CleanMeshOperator)
 
 
 def unregister():
@@ -162,3 +201,4 @@ def unregister():
     bpy.utils.unregister_class(SelectDstMaterialOperator)
     bpy.utils.unregister_class(RotateMapOperator)
     bpy.utils.unregister_class(CopyMeshDataOperator)
+    bpy.utils.unregister_class(CleanMeshOperator)

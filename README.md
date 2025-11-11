@@ -13,3 +13,4 @@
 - Materialtausch
 - Drehen des Texturmappings
 - Auflösung der Materialverknüpfung
+- Meshs bereinigen

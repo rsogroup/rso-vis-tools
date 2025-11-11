@@ -1,7 +1,7 @@
 schema_version = "1.0.0"
 id = "rso_vis_tools"
 name = "RSO Vis Tools"
-version = "0.0.1"
+version = "0.0.2"
 tagline = "RSO Vis Tools"
 maintainer = "RSO GmbH"
 type = "add-on"
